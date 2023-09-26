@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Web App</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<body>
+<div class="container text-center">
+    <br><br>
+    <div class="col-sm-6 mx-auto">
+        <form th:action="@{/guardar}" th:object="${estudiante}" th:method="POST">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Formulario cuotas</h3>
+                </div>
+                <div class="card-body">
+                    <!-- ... tus campos de entrada existentes ... -->
+                </div>
+                <div class="card-footer">
+                    <input type="submit" class="btn btn-success" value="Guardar"/>
+                    <a th:href="@{/listar}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </div>
+        </form>
+
+        <!-- Mostrar la cantidad máxima de cuotas y el monto total con el descuento -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h4>Resumen de cuotas</h4>
+            </div>
+            <div class="card-body">
+                <p>Cantidad máxima de cuotas: <span th:text="${cantidadMaxCuotas}"></span></p>
+                <p>Monto total con descuento: $<span th:text="${montoTotalConDescuento}"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
