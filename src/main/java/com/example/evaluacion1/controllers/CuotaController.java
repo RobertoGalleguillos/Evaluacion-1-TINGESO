@@ -21,23 +21,46 @@ public class CuotaController {
     @Autowired
     EstudianteService estudianteService;
 
-    @GetMapping("/listar_cuotas")
-    public String listar(Model model) {
-        ArrayList<CuotaEntity> cuotas = cuotaService.obtenerCuotas();
-        model.addAttribute("cuotas", cuotas);
+    @GetMapping("/listar_cuotas/{id}")
+    public String listar(@PathVariable Long id,Model model) {
+        Optional<EstudianteEntity> estudianteOptional = estudianteService.obtenerPorId(id);
+        if (estudianteOptional.isPresent()) {
+            EstudianteEntity estudiante = estudianteOptional.get();
+            ArrayList<CuotaEntity> cuotas = cuotaService.obtenerCuotasPorRut(estudiante.getRut());
+            model.addAttribute("cuotas", cuotas);
+        }
         return "index_cuotas";
     }
 
-    @PostMapping("/cuota/")
-    public CuotaEntity guardar(@RequestBody CuotaEntity cuotaEntityNuevo) {
-        return cuotaService.guardarCuota(cuotaEntityNuevo);
+    @GetMapping("/listar_estudiantes_para_ver_cuotas")
+    public String listarEstudiantesParaVerCuotas(Model model) {
+        ArrayList<EstudianteEntity> todosLosEstudiantes = estudianteService.obtenerEstudiantes();
+
+        ArrayList<EstudianteEntity> estudiantesConCuotas = new ArrayList<>();
+
+        for (EstudianteEntity estudiante : todosLosEstudiantes) {
+            if (cuotaService.existeCuota(estudiante.getRut())) {
+                estudiantesConCuotas.add(estudiante);
+            }
+        }
+        model.addAttribute("estudiantes", estudiantesConCuotas);
+
+        return "lista_estudiantes_cuota";
     }
 
-    @GetMapping("/eliminar_cuota/{id}")
+
+
+    @GetMapping("/eliminar_cuotas/{id}")
     public String eliminar(@PathVariable Long id) {
-        cuotaService.eliminarCuota(id);
-        return "redirect:/listar_cuotas";
+        Optional<EstudianteEntity> estudianteOptional = estudianteService.obtenerPorId(id);
+        if (estudianteOptional.isPresent()) {
+            EstudianteEntity estudiante = estudianteOptional.get();
+            cuotaService.eliminarCuotasPorRut(estudiante.getRut());
+        }
+        return "redirect:/listar_estudiantes_para_ver_cuotas";
     }
+
+
 
     @GetMapping("/generar_cuota/{id}")
     public ModelAndView agregar(@PathVariable Long id, Model model) {
@@ -76,6 +99,14 @@ public class CuotaController {
         return "redirect:/generar_cuotas";
     }
 
+    @PostMapping("/guardar_pago_al_contado")
+    public String guardarPagoAlContado(
+            @RequestParam("rut") String rut) {
+        cuotaService.generarPagoAlContado(rut);
+
+        return "redirect:/generar_cuotas";
+    }
+
     @GetMapping("/editar_cuota/{id}")
     public ModelAndView editar(@PathVariable Long id, Model model) {
         ModelAndView modelAndView = new ModelAndView("editar_cuota");
@@ -87,9 +118,19 @@ public class CuotaController {
         return modelAndView;
     }
 
-    @GetMapping("/pagar_al_contado")
-    public ModelAndView pagarAlContado() {
+    @GetMapping("/pagar_al_contado/{id}")
+    public ModelAndView pagarAlContado(@PathVariable Long id, Model model) {
         ModelAndView modelAndView = new ModelAndView("formulario_caso_al_contado");
+        Optional<EstudianteEntity> estudianteOptional = estudianteService.obtenerPorId(id);
+        if (estudianteOptional.isPresent()) {
+            EstudianteEntity estudiante = estudianteOptional.get();
+            boolean cuotasExisten = cuotaService.existeCuota(estudiante.getRut());
+            if (cuotasExisten) {
+                modelAndView = new ModelAndView("redirect:/generar_cuotas");
+            } else {
+                modelAndView.addObject("estudiante", estudiante);
+            }
+        }
         return modelAndView;
     }
 }

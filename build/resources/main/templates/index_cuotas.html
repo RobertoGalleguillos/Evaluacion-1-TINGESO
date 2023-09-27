@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Web App</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<body>
+<div class="container text-center">
+    <br><br>
+    <div class="text-center">
+    </div>
+    <br><br>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Rut</th>
+            <th>Monto cuota</th>
+            <th>Fecha de vencimiento</th>
+            <th>Descuento</th>
+            <th>Interés</th>
+            <th>Pagado</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cuota:${cuotas}">
+            <td th:text="${cuota.id}"></td>
+            <td th:text="${cuota.rut}"></td>
+            <td th:text="${cuota.montoCuota}"></td>
+            <td th:text="${#dates.format(cuota.fechaVencimiento, 'dd-MM-yyyy')}"></td>
+            <td th:text="${cuota.descuento}"></td>
+            <td th:text="${cuota.interes}"></td>
+            <td th:text="${cuota.pagado}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

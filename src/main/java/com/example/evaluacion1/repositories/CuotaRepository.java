@@ -6,9 +6,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Repository
 public interface CuotaRepository extends JpaRepository<CuotaEntity, Long>{
     public CuotaEntity findByRut(String rut);
 
     Long countByRut(String rut);
+
+    List<CuotaEntity> findAllByRut(String rut);
+
+    void deleteAllByRut(String rut);
 }

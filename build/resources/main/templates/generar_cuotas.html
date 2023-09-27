@@ -36,7 +36,7 @@
             <td th:text="${estudiante.anioEgreso}"></td>
             <td>
                 <a class="btn btn-success" th:href="@{/generar_cuota/{id}(id=${estudiante.id})}" role="button">Generar cuotas</a>
-                <a class="btn btn-primary" th:href="@{/pagar_al_contado}" role="button">Al contado</a>
+                <a class="btn btn-primary" th:href="@{/pagar_al_contado/{id}(id=${estudiante.id})}" role="button">Al contado</a>
             </td>
         </tr>
         </tbody>

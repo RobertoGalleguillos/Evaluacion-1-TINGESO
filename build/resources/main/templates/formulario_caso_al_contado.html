@@ -11,14 +11,21 @@
     <a class="btn btn-secondary position-absolute top-0 end-0 m-3" th:href="@{/listar}" role="button">Volver</a>
     <br>
     <div class="col-sm-6 mx-auto">
-        <div class="card mt-4">
-            <div class="card-header">
-                <h4>Resumen de pago al contado</h4>
+        <form th:action="@{/guardar_pago_al_contado}" th:object="${estudiante}" th:method="POST">
+            <input type="hidden" name="rut" th:value="${estudiante.rut}" />
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h4>Resumen de pago al contado</h4>
+                </div>
+                <div class="card-body">
+                    <p>Monto total con descuento: $750000</p>
+                </div>
+                <div class="card-footer">
+                    <input type="submit" class="btn btn-success" value="Pagar"/>
+                    <a th:href="@{/generar_cuotas}" class="btn btn-secondary">Cancelar</a>
+                </div>
             </div>
-            <div class="card-body">
-                <p>Monto total con descuento: $750000</p>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 </body>

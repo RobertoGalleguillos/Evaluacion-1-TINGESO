@@ -2,6 +2,7 @@ package com.example.evaluacion1.services;
 import com.example.evaluacion1.entities.CuotaEntity;
 import com.example.evaluacion1.entities.EstudianteEntity;
 import com.example.evaluacion1.repositories.CuotaRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -100,6 +101,27 @@ public class CuotaService {
     public boolean existeCuota(String rut) {
         Long count = cuotaRepository.countByRut(rut);
         return count > 0;
+    }
+
+    public void generarPagoAlContado(String rut){
+        CuotaEntity cuota = new CuotaEntity();
+        cuota.setRut(rut);
+        cuota.setFechaVencimiento(new Date());
+        cuota.setPagado(true);
+        cuota.setDescuento(0);
+        cuota.setInteres(0);
+        cuota.setMontoCuota(750000);
+        cuotaRepository.save(cuota);
+    }
+
+    @Transactional
+    public void eliminarCuotasPorRut(String rut){
+        cuotaRepository.deleteAllByRut(rut);
+    }
+
+    public ArrayList<CuotaEntity> obtenerCuotasPorRut(String rut){
+        return (ArrayList<CuotaEntity>) cuotaRepository.findAllByRut(rut);
+
     }
 
 }
