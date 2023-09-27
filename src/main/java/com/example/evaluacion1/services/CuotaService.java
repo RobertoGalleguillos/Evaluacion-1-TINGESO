@@ -5,9 +5,7 @@ import com.example.evaluacion1.repositories.CuotaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.time.LocalDate;
 @Service
 public class CuotaService {
@@ -41,21 +39,22 @@ public class CuotaService {
 
     public int descuentoMontoCuotas(EstudianteEntity estudiante){
         int montoTotal = 1500000;
+        int montoOriginal = 1500000;
         int year_actual = LocalDate.now().getYear();
         if(Objects.equals(estudiante.getTipoColegioProcedencia(), "Municipal")){
-            montoTotal = montoTotal - (montoTotal*20/100);
+            montoTotal = montoTotal - (montoOriginal*20/100);
         }
         if(Objects.equals(estudiante.getTipoColegioProcedencia(), "Subvencionado")){
-            montoTotal = montoTotal - (montoTotal*10/100);
+            montoTotal = montoTotal - (montoOriginal*10/100);
         }
         if(year_actual - estudiante.getAnioEgreso()==0){
-            montoTotal = montoTotal - (montoTotal*15/100);
+            montoTotal = montoTotal - (montoOriginal*15/100);
         }
         if((year_actual - estudiante.getAnioEgreso()==1) || (year_actual - estudiante.getAnioEgreso()==2)){
-            montoTotal = montoTotal - (montoTotal*8/100);
+            montoTotal = montoTotal - (montoOriginal*8/100);
         }
         if((year_actual - estudiante.getAnioEgreso()==3) || (year_actual - estudiante.getAnioEgreso()==4)){
-            montoTotal = montoTotal - (montoTotal*4/100);
+            montoTotal = montoTotal - (montoOriginal*4/100);
         }
         return montoTotal;
     }
@@ -73,5 +72,35 @@ public class CuotaService {
         }
         return cantidadMaxCuotas;
     }
+
+    public void generarCuotas(int cantidadCuotasSeleccionada, int montoTotal, String rut){
+        int montoCuota = montoTotal / cantidadCuotasSeleccionada;
+        Date fechaVencimiento = new Date();
+
+        for(int i = 0; i < cantidadCuotasSeleccionada; i++){
+            fechaVencimiento = sumarMesesAFecha(fechaVencimiento, 1);
+            CuotaEntity cuota = new CuotaEntity();
+            cuota.setRut(rut);
+            cuota.setFechaVencimiento(fechaVencimiento);
+            cuota.setPagado(false);
+            cuota.setDescuento(0);
+            cuota.setInteres(0);
+            cuota.setMontoCuota(montoCuota);
+            cuotaRepository.save(cuota);
+        }
+    }
+
+    private Date sumarMesesAFecha(Date fecha, int meses) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha);
+        calendar.add(Calendar.MONTH, meses);
+        return calendar.getTime();
+    }
+
+    public boolean existeCuota(String rut) {
+        Long count = cuotaRepository.countByRut(rut);
+        return count > 0;
+    }
+
 }
 

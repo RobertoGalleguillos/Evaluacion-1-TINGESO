@@ -42,25 +42,38 @@ public class CuotaController {
     @GetMapping("/generar_cuota/{id}")
     public ModelAndView agregar(@PathVariable Long id, Model model) {
         ModelAndView modelAndView = new ModelAndView("formulario_cuotas");
+
         Optional<EstudianteEntity> estudianteOptional = estudianteService.obtenerPorId(id);
         if (estudianteOptional.isPresent()) {
             EstudianteEntity estudiante = estudianteOptional.get();
 
-            int descuento = cuotaService.descuentoMontoCuotas(estudiante);
-            int cantidadMaxCuotas = cuotaService.cantidadMaxCuotas(estudiante);
+            boolean cuotasExisten = cuotaService.existeCuota(estudiante.getRut());
 
-            modelAndView.addObject("estudiante", estudiante);
-            modelAndView.addObject("descuento", descuento);
-            modelAndView.addObject("cantidadMaxCuotas", cantidadMaxCuotas);
+            if (cuotasExisten) {
+                modelAndView = new ModelAndView("redirect:/generar_cuotas");
+            } else {
+                int descuento = cuotaService.descuentoMontoCuotas(estudiante);
+                int cantidadMaxCuotas = cuotaService.cantidadMaxCuotas(estudiante);
+                modelAndView = new ModelAndView("formulario_cuotas");
+                modelAndView.addObject("estudiante", estudiante);
+                modelAndView.addObject("descuento", descuento);
+                modelAndView.addObject("cantidadMaxCuotas", cantidadMaxCuotas);
+            }
         }
+
         return modelAndView;
     }
 
 
-    @PostMapping("/guardar_cuota")
-    public String guardar(CuotaEntity cuota, Model model) {
-        cuotaService.guardarCuota(cuota);
-        return "redirect:/listar_cuotas";
+    @PostMapping("/guardar_cuotas")
+    public String generarCuotas(
+            @RequestParam("rut") String rut,
+            @RequestParam("cantidadCuotasSeleccionadas") int cantidadCuotas,
+            @RequestParam("montoTotal") int montoTotal) {
+
+        cuotaService.generarCuotas(cantidadCuotas, montoTotal, rut);
+
+        return "redirect:/generar_cuotas";
     }
 
     @GetMapping("/editar_cuota/{id}")
@@ -71,6 +84,12 @@ public class CuotaController {
             CuotaEntity cuota = cuotaOptional.get();
             modelAndView.addObject("cuota", cuota);
         }
+        return modelAndView;
+    }
+
+    @GetMapping("/pagar_al_contado")
+    public ModelAndView pagarAlContado() {
+        ModelAndView modelAndView = new ModelAndView("formulario_caso_al_contado");
         return modelAndView;
     }
 }

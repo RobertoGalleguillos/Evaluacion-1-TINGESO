@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface CuotaRepository extends JpaRepository<CuotaEntity, Long>{
     public CuotaEntity findByRut(String rut);
 
+    Long countByRut(String rut);
 }

@@ -9,17 +9,22 @@
 <div class="container text-center">
     <br><br>
     <div class="col-sm-6 mx-auto">
-        <form th:action="@{/guardar}" th:object="${estudiante}" th:method="POST">
+        <form th:action="@{/guardar_cuotas}" th:object="${estudiante}" th:method="POST">
+            <input type="hidden" name="rut" th:value="${estudiante.rut}" />
+            <input type="hidden" name="montoTotal" th:value="${descuento}" />
             <div class="card">
                 <div class="card-header">
                     <h3>Formulario cuotas</h3>
                 </div>
                 <div class="card-body">
-                    <!-- ... tus campos de entrada existentes ... -->
+                    <div class="form-group">
+                        <label>Cantidad de Cuotas:</label>
+                        <input type="number" class="form-control" min="2" th:max= "${cantidadMaxCuotas}" name="cantidadCuotasSeleccionadas" required />
+                    </div>
                 </div>
                 <div class="card-footer">
                     <input type="submit" class="btn btn-success" value="Guardar"/>
-                    <a th:href="@{/listar}" class="btn btn-secondary">Cancelar</a>
+                    <a th:href="@{/generar_cuotas}" class="btn btn-secondary">Cancelar</a>
                 </div>
             </div>
         </form>
@@ -31,7 +36,7 @@
             </div>
             <div class="card-body">
                 <p>Cantidad máxima de cuotas: <span th:text="${cantidadMaxCuotas}"></span></p>
-                <p>Monto total con descuento: $<span th:text="${montoTotalConDescuento}"></span></p>
+                <p>Monto total con descuento: $<span th:text="${descuento}"></span></p>
             </div>
         </div>
     </div>
