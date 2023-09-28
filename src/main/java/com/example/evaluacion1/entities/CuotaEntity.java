@@ -27,4 +27,6 @@ public class CuotaEntity {
     private float descuento;
     private float interes;
     private int montoCuota;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date fechaPago;
 }

@@ -77,16 +77,26 @@ public class CuotaService {
     public void generarCuotas(int cantidadCuotasSeleccionada, int montoTotal, String rut){
         int montoCuota = montoTotal / cantidadCuotasSeleccionada;
         Date fechaVencimiento = new Date();
-
         for(int i = 0; i < cantidadCuotasSeleccionada; i++){
-            fechaVencimiento = sumarMesesAFecha(fechaVencimiento, 1);
             CuotaEntity cuota = new CuotaEntity();
-            cuota.setRut(rut);
-            cuota.setFechaVencimiento(fechaVencimiento);
-            cuota.setPagado(false);
-            cuota.setDescuento(0);
-            cuota.setInteres(0);
-            cuota.setMontoCuota(montoCuota);
+            if(i==0){
+                fechaVencimiento = sumarMesesAFecha(fechaVencimiento, 1);
+                cuota.setRut(rut);
+                cuota.setFechaVencimiento(fechaVencimiento);
+                cuota.setPagado(false);
+                cuota.setDescuento(0);
+                cuota.setInteres(0);
+                cuota.setMontoCuota(montoCuota+70000);
+            }
+            else{
+                fechaVencimiento = sumarMesesAFecha(fechaVencimiento, 1);
+                cuota.setRut(rut);
+                cuota.setFechaVencimiento(fechaVencimiento);
+                cuota.setPagado(false);
+                cuota.setDescuento(0);
+                cuota.setInteres(0);
+                cuota.setMontoCuota(montoCuota);
+            }
             cuotaRepository.save(cuota);
         }
     }
@@ -110,7 +120,8 @@ public class CuotaService {
         cuota.setPagado(true);
         cuota.setDescuento(0);
         cuota.setInteres(0);
-        cuota.setMontoCuota(750000);
+        cuota.setMontoCuota(750000+70000);
+        cuota.setFechaPago(new Date());
         cuotaRepository.save(cuota);
     }
 
@@ -122,6 +133,12 @@ public class CuotaService {
     public ArrayList<CuotaEntity> obtenerCuotasPorRut(String rut){
         return (ArrayList<CuotaEntity>) cuotaRepository.findAllByRut(rut);
 
+    }
+
+    public void pagarCuota(CuotaEntity cuota){
+        cuota.setPagado(true);
+        cuota.setFechaPago(new Date());
+        cuotaRepository.save(cuota);
     }
 
 }

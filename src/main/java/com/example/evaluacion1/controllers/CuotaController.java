@@ -133,4 +133,15 @@ public class CuotaController {
         }
         return modelAndView;
     }
+
+    @GetMapping("/pagar_cuota/{id}")
+    public String pagarCuota(@PathVariable Long id, Model model) {
+        Optional<CuotaEntity> cuotaOptional = cuotaService.obtenerPorId(id);
+        if(cuotaOptional.isPresent()){
+            CuotaEntity cuota = cuotaOptional.get();
+            cuotaService.pagarCuota(cuota);
+        }
+        return "redirect:/listar_estudiantes_para_ver_cuotas";
+
+    }
 }
