@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.Generated;
 import java.util.*;
 import java.time.LocalDate;
 @Service
@@ -13,22 +14,27 @@ public class CuotaService {
     @Autowired
     CuotaRepository cuotaRepository;
 
+    @Generated
     public ArrayList<CuotaEntity> obtenerCuotas() {
         return (ArrayList<CuotaEntity>) cuotaRepository.findAll();
     }
 
+    @Generated
     public CuotaEntity guardarCuota(CuotaEntity cuota) {
         return cuotaRepository.save(cuota);
     }
 
+    @Generated
     public Optional<CuotaEntity> obtenerPorId(Long id) {
         return cuotaRepository.findById(id);
     }
 
+    @Generated
     public CuotaEntity obtenerPorRut(String rut) {
         return cuotaRepository.findByRut(rut);
     }
 
+    @Generated
     public boolean eliminarCuota(Long id) {
         try {
             cuotaRepository.deleteById(id);
@@ -74,6 +80,7 @@ public class CuotaService {
         return cantidadMaxCuotas;
     }
 
+    @Generated
     public void generarCuotas(int cantidadCuotasSeleccionada, int montoTotal, String rut){
         int montoCuota = montoTotal / cantidadCuotasSeleccionada;
         Date fechaVencimiento = new Date();
@@ -101,6 +108,7 @@ public class CuotaService {
         }
     }
 
+    @Generated
     private Date sumarMesesAFecha(Date fecha, int meses) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(fecha);
@@ -108,11 +116,13 @@ public class CuotaService {
         return calendar.getTime();
     }
 
+    @Generated
     public boolean existeCuota(String rut) {
         Long count = cuotaRepository.countByRut(rut);
         return count > 0;
     }
 
+    @Generated
     public void generarPagoAlContado(String rut){
         CuotaEntity cuota = new CuotaEntity();
         cuota.setRut(rut);
@@ -125,16 +135,19 @@ public class CuotaService {
         cuotaRepository.save(cuota);
     }
 
+    @Generated
     @Transactional
     public void eliminarCuotasPorRut(String rut){
         cuotaRepository.deleteAllByRut(rut);
     }
 
+    @Generated
     public ArrayList<CuotaEntity> obtenerCuotasPorRut(String rut){
         return (ArrayList<CuotaEntity>) cuotaRepository.findAllByRut(rut);
 
     }
 
+    @Generated
     public void pagarCuota(CuotaEntity cuota){
         cuota.setPagado(true);
         cuota.setFechaPago(new Date());

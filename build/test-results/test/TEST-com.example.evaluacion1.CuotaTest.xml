@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.evaluacion1.CuotaTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-09-28T15:19:53" hostname="roberto-Lenovo-ideapad-330S-14IKB" time="0.031">
+  <properties/>
+  <testcase name="calcularCantidadMaxDeCuotas()" classname="com.example.evaluacion1.CuotaTest" time="0.031"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
