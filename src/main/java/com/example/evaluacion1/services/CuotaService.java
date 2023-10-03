@@ -143,7 +143,7 @@ public class CuotaService {
 
     @Generated
     public ArrayList<CuotaEntity> obtenerCuotasPorRut(String rut){
-        return (ArrayList<CuotaEntity>) cuotaRepository.findAllByRut(rut);
+        return cuotaRepository.findAllByRut(rut);
 
     }
 
@@ -153,6 +153,54 @@ public class CuotaService {
         cuota.setFechaPago(new Date());
         cuotaRepository.save(cuota);
     }
+
+    public double calcularInteres(CuotaEntity cuota) {
+        Date fechaActual = new Date();
+        Date fechaVencimiento = cuota.getFechaVencimiento();
+
+        int mesesDiferencia = calcularDiferenciaMeses(fechaVencimiento, fechaActual);
+
+        double interes = 0.0;
+
+        if ((mesesDiferencia == 1) && !cuota.isPagado()) {
+            interes = 0.03;
+        }
+        else if ((mesesDiferencia == 2) && !cuota.isPagado()) {
+            interes = 0.06;
+        }
+        else if ((mesesDiferencia == 3) && !cuota.isPagado()) {
+            interes = 0.09;
+        }
+        else if ((mesesDiferencia > 3) && !cuota.isPagado()) {
+            interes = 0.15;
+        }
+
+        return interes;
+    }
+
+    private int calcularDiferenciaMeses(Date fechaInicio, Date fechaFin) {
+        Calendar calFechaInicio = Calendar.getInstance();
+        Calendar calFechaFin = Calendar.getInstance();
+        calFechaInicio.setTime(fechaInicio);
+        calFechaFin.setTime(fechaFin);
+
+        int years = calFechaFin.get(Calendar.YEAR) - calFechaInicio.get(Calendar.YEAR);
+        int months = calFechaFin.get(Calendar.MONTH) - calFechaInicio.get(Calendar.MONTH);
+
+        if(years <= 0){
+            return months;
+        }
+        else if(years == 1){
+            months = Math.abs((12-calFechaFin.get(Calendar.MONTH)) + (12-calFechaInicio.get(Calendar.MONTH)));
+            return months;
+        }
+        else{
+            months = Math.abs((12-calFechaFin.get(Calendar.MONTH)) + (12-calFechaInicio.get(Calendar.MONTH)));
+            months = months + ((years-1)*12);
+            return months;
+        }
+    }
+
 
 }
 

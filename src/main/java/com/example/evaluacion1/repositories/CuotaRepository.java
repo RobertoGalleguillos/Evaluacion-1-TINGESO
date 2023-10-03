@@ -15,7 +15,7 @@ public interface CuotaRepository extends JpaRepository<CuotaEntity, Long>{
 
     Long countByRut(String rut);
 
-    List<CuotaEntity> findAllByRut(String rut);
+    ArrayList<CuotaEntity> findAllByRut(String rut);
 
     void deleteAllByRut(String rut);
 }

@@ -25,5 +25,6 @@ public class SubirNotasEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaExamen;
     private int puntaje;
+    private String nombreArchivo;
 
 }

@@ -1,6 +1,10 @@
 package com.example.evaluacion1.controllers;
 
+import com.example.evaluacion1.entities.CuotaEntity;
+import com.example.evaluacion1.entities.EstudianteEntity;
 import com.example.evaluacion1.entities.SubirNotasEntity;
+import com.example.evaluacion1.services.CuotaService;
+import com.example.evaluacion1.services.EstudianteService;
 import com.example.evaluacion1.services.SubirNotasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +34,7 @@ public class SubirNotasController {
     public String upload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         subirData.guardar(file);
         redirectAttributes.addFlashAttribute("mensaje", "¡Archivo cargado correctamente!");
-        subirData.leerCsv("Notas.csv");
+        subirData.leerCsv(file.getOriginalFilename());
         return "redirect:/subirNotas";
     }
 
@@ -43,6 +47,16 @@ public class SubirNotasController {
 
     @PostMapping("/eliminarNotas")
     public String eliminarTodaLaData() {
+        ArrayList<SubirNotasEntity> notas = subirData.obtenerData();
+        if (!notas.isEmpty()) {
+            subirData.eliminarData(notas);
+        }
+        return "redirect:/subirNotas";
+    }
+
+    @PostMapping("/calcularDescuentos")
+    public String calcularDescuentos() {
+        subirData.procesarNotasConDescuento();
         ArrayList<SubirNotasEntity> notas = subirData.obtenerData();
         if (!notas.isEmpty()) {
             subirData.eliminarData(notas);

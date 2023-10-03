@@ -50,4 +50,75 @@ public class CuotaTest {
         assertEquals(10, resultado, 0.0);
     }
 
+
+    @Test
+    void calcularElInteresSinMesesAtraso() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaVencimiento = sdf.parse("2023-12-01");
+        CuotaEntity cuota = new CuotaEntity();
+        cuota.setFechaVencimiento(fechaVencimiento);
+        double resultado = cuotaService.calcularInteres(cuota);
+        assertEquals(0.0, resultado, 0.0);
+    }
+
+    @Test
+    void calcularElInteresUnMesAtraso() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaVencimiento = sdf.parse("2023-09-01");
+        CuotaEntity cuota = new CuotaEntity();
+        cuota.setFechaVencimiento(fechaVencimiento);
+        double resultado = cuotaService.calcularInteres(cuota);
+        assertEquals(0.03, resultado, 0.0);
+    }
+
+    @Test
+    void calcularElInteresDosMesesAtraso() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaVencimiento = sdf.parse("2023-08-01");
+        CuotaEntity cuota = new CuotaEntity();
+        cuota.setFechaVencimiento(fechaVencimiento);
+        double resultado = cuotaService.calcularInteres(cuota);
+        assertEquals(0.06, resultado, 0.0);
+    }
+
+    @Test
+    void calcularElInteresTresMesesAtraso() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaVencimiento = sdf.parse("2023-07-01");
+        CuotaEntity cuota = new CuotaEntity();
+        cuota.setFechaVencimiento(fechaVencimiento);
+        double resultado = cuotaService.calcularInteres(cuota);
+        assertEquals(0.09, resultado, 0.0);
+    }
+
+    @Test
+    void calcularElInteresMasDeTresMesesAtraso() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaVencimiento = sdf.parse("2023-05-01");
+        CuotaEntity cuota = new CuotaEntity();
+        cuota.setFechaVencimiento(fechaVencimiento);
+        double resultado = cuotaService.calcularInteres(cuota);
+        assertEquals(0.15, resultado, 0.0);
+    }
+    @Test
+    void calcularElInteresCasoOneYearAtraso() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaVencimiento = sdf.parse("2022-11-01");
+        CuotaEntity cuota = new CuotaEntity();
+        cuota.setFechaVencimiento(fechaVencimiento);
+        double resultado = cuotaService.calcularInteres(cuota);
+        assertEquals(0.15, resultado, 0.0);
+    }
+
+    @Test
+    void calcularElInteresCasoMasDeOneYearAtraso() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaVencimiento = sdf.parse("2020-08-01");
+        CuotaEntity cuota = new CuotaEntity();
+        cuota.setFechaVencimiento(fechaVencimiento);
+        double resultado = cuotaService.calcularInteres(cuota);
+        assertEquals(0.15, resultado, 0.0);
+    }
+
+
 }

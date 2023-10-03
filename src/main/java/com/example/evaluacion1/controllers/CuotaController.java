@@ -35,7 +35,6 @@ public class CuotaController {
     @GetMapping("/listar_estudiantes_para_ver_cuotas")
     public String listarEstudiantesParaVerCuotas(Model model) {
         ArrayList<EstudianteEntity> todosLosEstudiantes = estudianteService.obtenerEstudiantes();
-
         ArrayList<EstudianteEntity> estudiantesConCuotas = new ArrayList<>();
 
         for (EstudianteEntity estudiante : todosLosEstudiantes) {
