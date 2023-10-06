@@ -27,4 +27,6 @@ public class EstudianteEntity {
     private String tipoColegioProcedencia;
     private String nombreColegio;
     private int anioEgreso;
+    private int cantidadExamenes;
+    private int sumaPuntajes;
 }

@@ -3,6 +3,7 @@ package com.example.evaluacion1.services;
 import com.example.evaluacion1.entities.CuotaEntity;
 import com.example.evaluacion1.entities.EstudianteEntity;
 import com.example.evaluacion1.entities.SubirNotasEntity;
+import com.example.evaluacion1.repositories.EstudianteRepository;
 import com.example.evaluacion1.repositories.SubirNotasRepository;
 import lombok.Generated;
 import org.slf4j.Logger;
@@ -31,6 +32,8 @@ public class SubirNotasService {
     private CuotaService cuotasService;
     @Autowired
     private EstudianteService estudianteService;
+    @Autowired
+    private EstudianteRepository estudianteRepository;
 
     private final Logger logg = LoggerFactory.getLogger(SubirNotasService.class);
 
@@ -38,7 +41,6 @@ public class SubirNotasService {
         return (ArrayList<SubirNotasEntity>) dataRepository.findAll();
     }
 
-    @Generated
     public String guardar(MultipartFile file){
         String filename = file.getOriginalFilename();
         if(filename != null){
@@ -60,7 +62,6 @@ public class SubirNotasService {
         }
     }
 
-    @Generated
     public void leerCsv(String direccion){
         String texto = "";
         BufferedReader bf = null;
@@ -127,9 +128,7 @@ public class SubirNotasService {
 
     public void descuentoCuotaPorNotas(int puntajePromedio, CuotaEntity cuota) {
         double descuento = calcularDescuentoPorNotas(puntajePromedio);
-        double descuentoInicial = cuota.getDescuento();
-        double descuentoTotal = descuentoInicial + descuento;
-        cuota.setDescuento(descuentoTotal);
+        cuota.setDescuento(descuento);
         int montoCuota = cuota.getMontoCuota();
         int montoDescuento = (int) (montoCuota * descuento);
         int montoFinal = montoCuota - montoDescuento;
@@ -152,6 +151,7 @@ public class SubirNotasService {
         return descuento;
     }
 
+
     public void procesarNotasConDescuento() {
         ArrayList<EstudianteEntity> estudiantes = estudianteService.obtenerEstudiantes();
         ArrayList<CuotaEntity> cuotas = cuotasService.obtenerCuotas();
@@ -169,24 +169,32 @@ public class SubirNotasService {
                     if(estudiante.getRut().equals(cuota.getRut())){
                         ArrayList<CuotaEntity> cuotasRut = cuotasService.obtenerCuotasPorRut(estudiante.getRut());
                         if(cuotasRut.size() == 1){
-                            descuentoCuotaPorNotas(promedio, cuota);
-                            cuotasService.guardarCuota(cuota);
+                            aplicarDescuentoPorNotasCasoContado(promedio, cuota);
                         }
                         else{
                             Calendar calVencimiento = Calendar.getInstance();
                             calVencimiento.setTime(cuota.getFechaVencimiento());
-                            int mesVencimiento = calVencimiento.get(Calendar.MONTH) + 1;
-                            int yearVencimiento = calVencimiento.get(Calendar.YEAR);
-
-                            if (((mesExamen <= mesVencimiento) || (yearExamen < yearVencimiento)) && !cuota.isPagado()) {
-                                descuentoCuotaPorNotas(promedio, cuota);
-                                cuotasService.guardarCuota(cuota);
-                            }
+                            aplicarDescuentoPorNotasCasoCuotas(calVencimiento, mesExamen, yearExamen, cuota, promedio);
                         }
                     }
                 }
             }
         }
+    }
+
+    public void aplicarDescuentoPorNotasCasoCuotas(Calendar calVencimiento, int mesExamen, int yearExamen, CuotaEntity cuota, int promedio) {
+        int mesVencimiento = calVencimiento.get(Calendar.MONTH) + 1;
+        int yearVencimiento = calVencimiento.get(Calendar.YEAR);
+
+        if (((mesExamen < mesVencimiento) || (yearExamen < yearVencimiento)) && !cuota.isPagado()) {
+            descuentoCuotaPorNotas(promedio, cuota);
+            cuotasService.guardarCuota(cuota);
+        }
+    }
+
+    public void aplicarDescuentoPorNotasCasoContado(int promedio, CuotaEntity cuota){
+        descuentoCuotaPorNotas(promedio, cuota);
+        cuotasService.guardarCuota(cuota);
     }
 
     public Date obtenerFechaPrimerExamen(String rut) {
@@ -200,14 +208,27 @@ public class SubirNotasService {
 
     public int calcularPromedioNotas(String rut) {
         ArrayList<SubirNotasEntity> notas = dataRepository.findAllByRut(rut);
+        EstudianteEntity estudiante = estudianteService.obtenerPorRut(rut);
         int promedio = 0;
         for (SubirNotasEntity nota : notas) {
+            int cantidadExamenes = estudiante.getCantidadExamenes();
+            cantidadExamenes++;
+            estudiante.setCantidadExamenes(cantidadExamenes);
             promedio += nota.getPuntaje();
         }
+        int sumaPuntajes = estudiante.getSumaPuntajes();
+        sumaPuntajes += promedio;
+        estudiante.setSumaPuntajes(sumaPuntajes);
         promedio = promedio / 4;
         return promedio;
     }
 
+    public boolean fechaAceptadaParaCalcularPlantilla(Date fechaActual) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechaActual);
+        int diaDelMes = calendar.get(Calendar.DAY_OF_MONTH);
+        return diaDelMes < 5 || diaDelMes > 10;
+    }
 
 
 }

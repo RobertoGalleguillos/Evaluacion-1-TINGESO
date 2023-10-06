@@ -1,4 +1,5 @@
 package com.example.evaluacion1.services;
+import org.springframework.ui.Model;
 import com.example.evaluacion1.entities.CuotaEntity;
 import com.example.evaluacion1.entities.EstudianteEntity;
 import com.example.evaluacion1.repositories.CuotaRepository;
@@ -6,7 +7,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.Generated;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.time.LocalDate;
 @Service
@@ -14,34 +17,28 @@ public class CuotaService {
     @Autowired
     CuotaRepository cuotaRepository;
 
-    @Generated
     public ArrayList<CuotaEntity> obtenerCuotas() {
         return (ArrayList<CuotaEntity>) cuotaRepository.findAll();
     }
 
-    @Generated
-    public CuotaEntity guardarCuota(CuotaEntity cuota) {
-        return cuotaRepository.save(cuota);
+    public void guardarCuota(CuotaEntity cuota) {
+        cuotaRepository.save(cuota);
     }
 
-    @Generated
     public Optional<CuotaEntity> obtenerPorId(Long id) {
         return cuotaRepository.findById(id);
     }
 
-    @Generated
-    public CuotaEntity obtenerPorRut(String rut) {
-        return cuotaRepository.findByRut(rut);
+    public ArrayList<CuotaEntity> obtenerCuotasPorRut(String rut){
+        return cuotaRepository.findAllByRut(rut);
+    }
+    @Transactional
+    public void eliminarCuotasPorRut(String rut){
+        cuotaRepository.deleteAllByRut(rut);
     }
 
-    @Generated
-    public boolean eliminarCuota(Long id) {
-        try {
-            cuotaRepository.deleteById(id);
-            return true;
-        } catch (Exception err) {
-            return false;
-        }
+    public void eliminarCuota(Long id){
+        cuotaRepository.deleteById(id);
     }
 
     public int descuentoMontoCuotas(EstudianteEntity estudiante){
@@ -80,7 +77,6 @@ public class CuotaService {
         return cantidadMaxCuotas;
     }
 
-    @Generated
     public void generarCuotas(int cantidadCuotasSeleccionada, int montoTotal, String rut){
         int montoCuota = montoTotal / cantidadCuotasSeleccionada;
         Date fechaVencimiento = new Date();
@@ -88,6 +84,7 @@ public class CuotaService {
             CuotaEntity cuota = new CuotaEntity();
             if(i==0){
                 fechaVencimiento = sumarMesesAFecha(fechaVencimiento, 1);
+                fechaVencimiento.setDate(10);
                 cuota.setRut(rut);
                 cuota.setFechaVencimiento(fechaVencimiento);
                 cuota.setPagado(false);
@@ -108,7 +105,6 @@ public class CuotaService {
         }
     }
 
-    @Generated
     private Date sumarMesesAFecha(Date fecha, int meses) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(fecha);
@@ -116,13 +112,11 @@ public class CuotaService {
         return calendar.getTime();
     }
 
-    @Generated
     public boolean existeCuota(String rut) {
         Long count = cuotaRepository.countByRut(rut);
         return count > 0;
     }
 
-    @Generated
     public void generarPagoAlContado(String rut){
         CuotaEntity cuota = new CuotaEntity();
         cuota.setRut(rut);
@@ -135,27 +129,15 @@ public class CuotaService {
         cuotaRepository.save(cuota);
     }
 
-    @Generated
-    @Transactional
-    public void eliminarCuotasPorRut(String rut){
-        cuotaRepository.deleteAllByRut(rut);
-    }
 
-    @Generated
-    public ArrayList<CuotaEntity> obtenerCuotasPorRut(String rut){
-        return cuotaRepository.findAllByRut(rut);
 
-    }
-
-    @Generated
     public void pagarCuota(CuotaEntity cuota){
         cuota.setPagado(true);
         cuota.setFechaPago(new Date());
         cuotaRepository.save(cuota);
     }
 
-    public double calcularInteres(CuotaEntity cuota) {
-        Date fechaActual = new Date();
+    public double calcularInteres(CuotaEntity cuota, Date fechaActual) {
         Date fechaVencimiento = cuota.getFechaVencimiento();
 
         int mesesDiferencia = calcularDiferenciaMeses(fechaVencimiento, fechaActual);
@@ -187,7 +169,11 @@ public class CuotaService {
         int years = calFechaFin.get(Calendar.YEAR) - calFechaInicio.get(Calendar.YEAR);
         int months = calFechaFin.get(Calendar.MONTH) - calFechaInicio.get(Calendar.MONTH);
 
-        if(years <= 0){
+        if(years < 0){
+            months = 0;
+            return months;
+        }
+        else if(years == 0){
             return months;
         }
         else if(years == 1){
@@ -200,6 +186,32 @@ public class CuotaService {
             return months;
         }
     }
+
+    public void revisarIntereses(){
+        ArrayList<CuotaEntity> cuotas = obtenerCuotas();
+        for(CuotaEntity cuota : cuotas){
+            if(!cuota.isPagado()){
+                double interes = calcularInteres(cuota, new Date());
+                if(interes > cuota.getInteres()){
+                    cuota.setInteres(interes);
+                    cuota.setMontoCuota(cuota.getMontoCuota() + (int) (cuota.getMontoCuota()*interes));
+                    cuotaRepository.save(cuota);
+                }
+            }
+        }
+    }
+
+
+    public boolean fechaAceptadaParaPago(Date fechaActual) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechaActual);
+        int diaDelMes = calendar.get(Calendar.DAY_OF_MONTH);
+        return diaDelMes >= 5 && diaDelMes <= 10;
+    }
+
+
+
+
 
 
 }

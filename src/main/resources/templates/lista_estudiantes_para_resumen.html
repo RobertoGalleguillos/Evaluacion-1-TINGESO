@@ -36,6 +36,22 @@
             color: white;
             font-family: 'Impact', sans-serif;
         }
+        .header .btn button{
+            margin-left: 20px;
+            font-weight: 700;
+            color: #1b3039;
+            padding: 9px 25px;
+            background: #eceff1;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease 0s;
+        }
+        .header .btn button:hover{
+            background-color: #e2f1f8;
+            color: #ffbc0e;
+            transform: scale(1.1);
+        }
 
         .container-ajuste {
             display: flex;
@@ -51,18 +67,10 @@
     <div class="logo">
         <h1>TopEducation</h1>
     </div>
+    <a class="btn" href="/listar"><button>Volver</button></a>
 </header>
-<br>
-<div class="text-center">
-    <a th:href="@{/agregar}" class="btn btn-success">Agregar estudiante</a>
-    <a th:href="@{/generar_cuotas}" class="btn btn-success">Generar cuota de pago</a>
-    <a th:href="@{/listar_estudiantes_para_ver_cuotas}" class="btn btn-success">Listar cuotas de pago</a>
-    <a th:href="@{/subirNotas}" class="btn btn-success">Subir Notas</a>
-    <a th:href="@{/lista_estudiantes_para_resumen}" class="btn btn-success">Calcular reporte resumen</a>
-</div>
-
 <div class="container-ajuste">
-    <h2>Estudiantes registrados</h2>
+    <h2>Estudiantes con cuotas registradas</h2>
     <table class="table">
         <thead class="thead-dark">
         <tr>
@@ -88,8 +96,7 @@
             <td th:text="${estudiante.nombreColegio}"></td>
             <td th:text="${estudiante.anioEgreso}"></td>
             <td>
-                <a class="btn btn-primary" th:href="@{/editar/{id}(id=${estudiante.id})}" role="button">Editar</a>
-                <a class="btn btn-danger" th:href="@{/eliminar/{id}(id=${estudiante.id})}" role="button">Eliminar</a>
+                <a class="btn btn-primary" th:href="@{/resumen/{id}(id=${estudiante.id})}" role="button">Ver resumen</a>
             </td>
         </tr>
         </tbody>

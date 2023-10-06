@@ -1,10 +1,7 @@
 package com.example.evaluacion1.controllers;
 
-import com.example.evaluacion1.entities.CuotaEntity;
-import com.example.evaluacion1.entities.EstudianteEntity;
 import com.example.evaluacion1.entities.SubirNotasEntity;
 import com.example.evaluacion1.services.CuotaService;
-import com.example.evaluacion1.services.EstudianteService;
 import com.example.evaluacion1.services.SubirNotasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @Controller
 @RequestMapping
@@ -24,6 +22,8 @@ public class SubirNotasController {
 
     @Autowired
     private SubirNotasService subirData;
+    @Autowired
+    private CuotaService cuotaService;
 
     @GetMapping("/subirNotas")
     public String main() {
@@ -56,10 +56,13 @@ public class SubirNotasController {
 
     @PostMapping("/calcularDescuentos")
     public String calcularDescuentos() {
-        subirData.procesarNotasConDescuento();
-        ArrayList<SubirNotasEntity> notas = subirData.obtenerData();
-        if (!notas.isEmpty()) {
-            subirData.eliminarData(notas);
+        if(subirData.fechaAceptadaParaCalcularPlantilla(new Date())){
+            subirData.procesarNotasConDescuento();
+            cuotaService.revisarIntereses();
+            ArrayList<SubirNotasEntity> notas = subirData.obtenerData();
+            if (!notas.isEmpty()) {
+                subirData.eliminarData(notas);
+            }
         }
         return "redirect:/subirNotas";
     }

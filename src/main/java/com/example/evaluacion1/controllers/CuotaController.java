@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 
 @Controller
@@ -24,7 +25,7 @@ public class CuotaController {
     @GetMapping("/listar_cuotas/{id}")
     public String listar(@PathVariable Long id,Model model) {
         Optional<EstudianteEntity> estudianteOptional = estudianteService.obtenerPorId(id);
-        if (estudianteOptional.isPresent()) {
+        if(estudianteOptional.isPresent()){
             EstudianteEntity estudiante = estudianteOptional.get();
             ArrayList<CuotaEntity> cuotas = cuotaService.obtenerCuotasPorRut(estudiante.getRut());
             model.addAttribute("cuotas", cuotas);
@@ -35,13 +36,7 @@ public class CuotaController {
     @GetMapping("/listar_estudiantes_para_ver_cuotas")
     public String listarEstudiantesParaVerCuotas(Model model) {
         ArrayList<EstudianteEntity> todosLosEstudiantes = estudianteService.obtenerEstudiantes();
-        ArrayList<EstudianteEntity> estudiantesConCuotas = new ArrayList<>();
-
-        for (EstudianteEntity estudiante : todosLosEstudiantes) {
-            if (cuotaService.existeCuota(estudiante.getRut())) {
-                estudiantesConCuotas.add(estudiante);
-            }
-        }
+        ArrayList<EstudianteEntity> estudiantesConCuotas = estudianteService.obtenerEstudiantesConCuotas(todosLosEstudiantes);
         model.addAttribute("estudiantes", estudiantesConCuotas);
 
         return "lista_estudiantes_cuota";
@@ -52,7 +47,7 @@ public class CuotaController {
     @GetMapping("/eliminar_cuotas/{id}")
     public String eliminar(@PathVariable Long id) {
         Optional<EstudianteEntity> estudianteOptional = estudianteService.obtenerPorId(id);
-        if (estudianteOptional.isPresent()) {
+        if(estudianteOptional.isPresent()){
             EstudianteEntity estudiante = estudianteOptional.get();
             cuotaService.eliminarCuotasPorRut(estudiante.getRut());
         }
@@ -64,7 +59,6 @@ public class CuotaController {
     @GetMapping("/generar_cuota/{id}")
     public ModelAndView agregar(@PathVariable Long id, Model model) {
         ModelAndView modelAndView = new ModelAndView("formulario_cuotas");
-
         Optional<EstudianteEntity> estudianteOptional = estudianteService.obtenerPorId(id);
         if (estudianteOptional.isPresent()) {
             EstudianteEntity estudiante = estudianteOptional.get();
@@ -82,7 +76,6 @@ public class CuotaController {
                 modelAndView.addObject("cantidadMaxCuotas", cantidadMaxCuotas);
             }
         }
-
         return modelAndView;
     }
 
@@ -106,17 +99,6 @@ public class CuotaController {
         return "redirect:/generar_cuotas";
     }
 
-    @GetMapping("/editar_cuota/{id}")
-    public ModelAndView editar(@PathVariable Long id, Model model) {
-        ModelAndView modelAndView = new ModelAndView("editar_cuota");
-        Optional<CuotaEntity> cuotaOptional = cuotaService.obtenerPorId(id);
-        if(cuotaOptional.isPresent()){
-            CuotaEntity cuota = cuotaOptional.get();
-            modelAndView.addObject("cuota", cuota);
-        }
-        return modelAndView;
-    }
-
     @GetMapping("/pagar_al_contado/{id}")
     public ModelAndView pagarAlContado(@PathVariable Long id, Model model) {
         ModelAndView modelAndView = new ModelAndView("formulario_caso_al_contado");
@@ -136,7 +118,7 @@ public class CuotaController {
     @GetMapping("/pagar_cuota/{id}")
     public String pagarCuota(@PathVariable Long id, Model model) {
         Optional<CuotaEntity> cuotaOptional = cuotaService.obtenerPorId(id);
-        if(cuotaOptional.isPresent()){
+        if(cuotaOptional.isPresent() && cuotaService.fechaAceptadaParaPago(new Date())){
             CuotaEntity cuota = cuotaOptional.get();
             cuotaService.pagarCuota(cuota);
         }

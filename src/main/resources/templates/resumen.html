@@ -60,6 +60,14 @@
             align-items: center;
             margin: 2%;
         }
+
+        table th {
+            font-size: 20px;
+        }
+
+        table td {
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
@@ -67,40 +75,63 @@
     <div class="logo">
         <h1>TopEducation</h1>
     </div>
-    <a class="btn" href="/listar"><button>Volver</button></a>
+    <a class="btn" th:href="@{/lista_estudiantes_para_resumen}"><button>Volver</button></a>
 </header>
 <div class="container-ajuste">
-    <h2>Estudiantes para calcular reporte resumen</h2>
-    <table class="table">
-        <thead class="thead-dark">
+    <h2>Resumen</h2>
+    <table>
         <tr>
-            <th>ID</th>
-            <th>Rut</th>
-            <th>Apellidos</th>
-            <th>Nombres</th>
-            <th>Fecha de nacimiento</th>
-            <th>Tipo colegio procedencia</th>
-            <th>Nombre colegio</th>
-            <th>Año egreso</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="estudiante:${estudiantes}">
-            <td th:text="${estudiante.id}"></td>
+            <th>RUT estudiante:</th>
             <td th:text="${estudiante.rut}"></td>
-            <td th:text="${estudiante.apellidos}"></td>
-            <td th:text="${estudiante.nombres}"></td>
-            <td th:text="${#dates.format(estudiante.fechaNacimiento, 'dd-MM-yyyy')}"></td>
-            <td th:text="${estudiante.tipoColegioProcedencia}"></td>
-            <td th:text="${estudiante.nombreColegio}"></td>
-            <td th:text="${estudiante.anioEgreso}"></td>
-            <td>
-                <a class="btn btn-success" th:href="@{/listar_cuotas/{id}(id=${estudiante.id})}" role="button">Ver cuotas</a>
-                <a class="btn btn-primary" th:href="@{/eliminar_cuotas/{id}(id=${estudiante.id})}" role="button">Eliminar cuotas</a>
-            </td>
         </tr>
-        </tbody>
+        <tr>
+            <th>Apellidos del estudiante:</th>
+            <td th:text="${estudiante.apellidos}"></td>
+        </tr>
+        <tr>
+            <th>Nombres del estudiante:</th>
+            <td th:text="${estudiante.nombres}"></td>
+        </tr>
+        <tr>
+            <th>Nro. exámenes rendidos:</th>
+            <td th:text="${estudiante.cantidadExamenes}"></td>
+        </tr>
+        <tr>
+            <th>Promedio puntaje exámenes:</th>
+            <td th:text="${promedioExamenesTotales}"></td>
+        </tr>
+        <tr>
+            <th>Monto total arancel a pagar:</th>
+            <td th:text="${montoTotalArancelPagar}"></td>
+        </tr>
+        <tr>
+            <th>Tipo Pago:</th>
+            <td th:text="${tipoPago}"></td>
+        </tr>
+        <tr>
+            <th>Nro. total de cuotas pactadas:</th>
+            <td th:text="${numeroCuotasPactadas}"></td>
+        </tr>
+        <tr>
+            <th>Nro. cuotas pagadas:</th>
+            <td th:text="${numeroCuotasPagadas}"></td>
+        </tr>
+        <tr>
+            <th>Monto total pagado:</th>
+            <td th:text="${montoTotalPagado}"></td>
+        </tr>
+        <tr>
+            <th>Fecha último pago:</th>
+            <td th:text="${#dates.format(fechaUltimoPago, 'dd-MM-yyyy')}"></td>
+        </tr>
+        <tr>
+            <th>Saldo por pagar:</th>
+            <td th:text="${saldoPorPagar}"></td>
+        </tr>
+        <tr>
+            <th>Nro. Cuotas con retraso:</th>
+            <td th:text="${numeroCuotasConRetraso}"></td>
+        </tr>
     </table>
 </div>
 </body>
