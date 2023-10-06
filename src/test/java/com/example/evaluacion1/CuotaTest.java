@@ -6,9 +6,8 @@ import com.example.evaluacion1.services.CuotaService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.swing.text.html.Option;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

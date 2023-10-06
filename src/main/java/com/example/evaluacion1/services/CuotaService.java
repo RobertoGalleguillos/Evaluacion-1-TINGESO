@@ -1,5 +1,4 @@
 package com.example.evaluacion1.services;
-import org.springframework.ui.Model;
 import com.example.evaluacion1.entities.CuotaEntity;
 import com.example.evaluacion1.entities.EstudianteEntity;
 import com.example.evaluacion1.repositories.CuotaRepository;
@@ -7,9 +6,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import org.springframework.web.servlet.ModelAndView;
-
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.time.LocalDate;
 @Service

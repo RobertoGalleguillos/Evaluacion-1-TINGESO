@@ -5,7 +5,6 @@ import com.example.evaluacion1.entities.EstudianteEntity;
 import com.example.evaluacion1.entities.SubirNotasEntity;
 import com.example.evaluacion1.repositories.EstudianteRepository;
 import com.example.evaluacion1.repositories.SubirNotasRepository;
-import lombok.Generated;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -186,7 +185,7 @@ public class SubirNotasService {
         int mesVencimiento = calVencimiento.get(Calendar.MONTH) + 1;
         int yearVencimiento = calVencimiento.get(Calendar.YEAR);
 
-        if (((mesExamen < mesVencimiento) || (yearExamen < yearVencimiento)) && !cuota.isPagado()) {
+        if ((((mesExamen < mesVencimiento) && (yearExamen == yearVencimiento)) || (yearExamen < yearVencimiento)) && !cuota.isPagado()) {
             descuentoCuotaPorNotas(promedio, cuota);
             cuotasService.guardarCuota(cuota);
         }

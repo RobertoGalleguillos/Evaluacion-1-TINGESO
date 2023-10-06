@@ -1,6 +1,5 @@
 package com.example.evaluacion1.controllers;
 
-import com.example.evaluacion1.entities.CuotaEntity;
 import com.example.evaluacion1.entities.EstudianteEntity;
 import com.example.evaluacion1.services.CuotaService;
 import com.example.evaluacion1.services.EstudianteService;
