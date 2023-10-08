@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  mysql-db:
+    image: mysql
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Ragc2806
+      MYSQL_DATABASE: mysqlbd
+    ports:
+      - 33060:3306
+
+  app:
+    container_name: evaluacion1_docker
+    image: robertogalleguillos/evaluacion1_docker
+    ports:
+      - "8090:8090"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/mysqlbd?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Ragc2806
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - mysql-db
