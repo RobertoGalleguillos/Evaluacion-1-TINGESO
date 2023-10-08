@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.evaluacion1.EstudianteTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2023-10-06T22:28:52" hostname="roberto-Lenovo-ideapad-330S-14IKB" time="0.68">
+<testsuite name="com.example.evaluacion1.EstudianteTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2023-10-08T01:52:35" hostname="YOBE" time="0.563">
   <properties/>
-  <testcase name="comprobarObtenerEstudiantesConCuotas()" classname="com.example.evaluacion1.EstudianteTest" time="0.077"/>
-  <testcase name="calcularNumeroCuotasPactadas()" classname="com.example.evaluacion1.EstudianteTest" time="0.055"/>
+  <testcase name="comprobarObtenerEstudiantesConCuotas()" classname="com.example.evaluacion1.EstudianteTest" time="0.075"/>
+  <testcase name="calcularNumeroCuotasPactadas()" classname="com.example.evaluacion1.EstudianteTest" time="0.053"/>
   <testcase name="calcularTipoPagoCasoContado()" classname="com.example.evaluacion1.EstudianteTest" time="0.036"/>
-  <testcase name="comprobarObtenerPorId()" classname="com.example.evaluacion1.EstudianteTest" time="0.039"/>
-  <testcase name="calcularMontoTotalPagado()" classname="com.example.evaluacion1.EstudianteTest" time="0.048"/>
-  <testcase name="calcularNumeroCuotasPagadas()" classname="com.example.evaluacion1.EstudianteTest" time="0.053"/>
-  <testcase name="comprobarObtenerEstudiantes()" classname="com.example.evaluacion1.EstudianteTest" time="0.054"/>
-  <testcase name="calcularTipoPagoCasoCuotas()" classname="com.example.evaluacion1.EstudianteTest" time="0.05"/>
-  <testcase name="calcularSaldoPorPagar()" classname="com.example.evaluacion1.EstudianteTest" time="0.056"/>
-  <testcase name="calcularFechaUltimoPago()" classname="com.example.evaluacion1.EstudianteTest" time="0.047"/>
-  <testcase name="calcularPromedioTotalExamenes()" classname="com.example.evaluacion1.EstudianteTest" time="0.008"/>
-  <testcase name="calcularMontoTotalArancelPagar()" classname="com.example.evaluacion1.EstudianteTest" time="0.047"/>
-  <testcase name="calcularNumeroCuotasConRetraso()" classname="com.example.evaluacion1.EstudianteTest" time="0.063"/>
-  <testcase name="calcularPromedioTotalExamenesCasoCero()" classname="com.example.evaluacion1.EstudianteTest" time="0.006"/>
-  <system-out><![CDATA[2023-10-06T19:28:52.983-03:00  INFO 12708 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.evaluacion1.EstudianteTest]: EstudianteTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2023-10-06T19:28:52.987-03:00  INFO 12708 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.evaluacion1.Evaluacion1Application for test class com.example.evaluacion1.EstudianteTest
+  <testcase name="comprobarObtenerPorId()" classname="com.example.evaluacion1.EstudianteTest" time="0.037"/>
+  <testcase name="calcularMontoTotalPagado()" classname="com.example.evaluacion1.EstudianteTest" time="0.05"/>
+  <testcase name="calcularNumeroCuotasPagadas()" classname="com.example.evaluacion1.EstudianteTest" time="0.05"/>
+  <testcase name="comprobarObtenerEstudiantes()" classname="com.example.evaluacion1.EstudianteTest" time="0.04"/>
+  <testcase name="calcularTipoPagoCasoCuotas()" classname="com.example.evaluacion1.EstudianteTest" time="0.041"/>
+  <testcase name="calcularSaldoPorPagar()" classname="com.example.evaluacion1.EstudianteTest" time="0.045"/>
+  <testcase name="calcularFechaUltimoPago()" classname="com.example.evaluacion1.EstudianteTest" time="0.035"/>
+  <testcase name="calcularPromedioTotalExamenes()" classname="com.example.evaluacion1.EstudianteTest" time="0.004"/>
+  <testcase name="calcularMontoTotalArancelPagar()" classname="com.example.evaluacion1.EstudianteTest" time="0.033"/>
+  <testcase name="calcularNumeroCuotasConRetraso()" classname="com.example.evaluacion1.EstudianteTest" time="0.034"/>
+  <testcase name="calcularPromedioTotalExamenesCasoCero()" classname="com.example.evaluacion1.EstudianteTest" time="0.004"/>
+  <system-out><![CDATA[2023-10-07T22:52:35.489-03:00  INFO 9504 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.evaluacion1.EstudianteTest]: EstudianteTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-10-07T22:52:35.494-03:00  INFO 9504 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.evaluacion1.Evaluacion1Application for test class com.example.evaluacion1.EstudianteTest
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

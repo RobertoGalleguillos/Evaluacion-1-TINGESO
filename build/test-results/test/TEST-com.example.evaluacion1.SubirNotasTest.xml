@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.evaluacion1.SubirNotasTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2023-10-06T22:28:53" hostname="roberto-Lenovo-ideapad-330S-14IKB" time="0.663">
+<testsuite name="com.example.evaluacion1.SubirNotasTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2023-10-08T01:52:36" hostname="YOBE" time="0.491">
   <properties/>
   <testcase name="calcularDescuentosPorNotasTercerCaso()" classname="com.example.evaluacion1.SubirNotasTest" time="0.005"/>
-  <testcase name="comprobarObtenerFechaPrimerExamen()" classname="com.example.evaluacion1.SubirNotasTest" time="0.042"/>
-  <testcase name="comprobarFechaRechazadaCalcularPlantilla()" classname="com.example.evaluacion1.SubirNotasTest" time="0.007"/>
+  <testcase name="comprobarObtenerFechaPrimerExamen()" classname="com.example.evaluacion1.SubirNotasTest" time="0.046"/>
+  <testcase name="comprobarFechaRechazadaCalcularPlantilla()" classname="com.example.evaluacion1.SubirNotasTest" time="0.005"/>
   <testcase name="calcularDescuentosPorNotasPrimerCaso()" classname="com.example.evaluacion1.SubirNotasTest" time="0.005"/>
-  <testcase name="comprobarProcesarNotasConDescuento()" classname="com.example.evaluacion1.SubirNotasTest" time="0.183"/>
-  <testcase name="comprobarGuardarDataDB()" classname="com.example.evaluacion1.SubirNotasTest" time="0.036"/>
-  <testcase name="comprobarFechaAceptadaCalcularPlantilla()" classname="com.example.evaluacion1.SubirNotasTest" time="0.005"/>
-  <testcase name="comprobarDescuentoCuotaPorNotas()" classname="com.example.evaluacion1.SubirNotasTest" time="0.099"/>
-  <testcase name="calcularDescuentosPorNotasCuartoCaso()" classname="com.example.evaluacion1.SubirNotasTest" time="0.005"/>
-  <testcase name="comprobarCalcularPromedioNotas()" classname="com.example.evaluacion1.SubirNotasTest" time="0.1"/>
-  <testcase name="calcularDescuentosPorNotasSegundoCaso()" classname="com.example.evaluacion1.SubirNotasTest" time="0.006"/>
-  <testcase name="comprobarLeerCsv()" classname="com.example.evaluacion1.SubirNotasTest" time="0.044"/>
-  <testcase name="comprobarAplicarDescuentoPorNotasCasoCuotasCaso2()" classname="com.example.evaluacion1.SubirNotasTest" time="0.021"/>
-  <testcase name="comprobarAplicarDescuentoPorNotasCasoCuotas()" classname="com.example.evaluacion1.SubirNotasTest" time="0.02"/>
-  <testcase name="comprobarObtenerFechaPrimerExamenCasoNull()" classname="com.example.evaluacion1.SubirNotasTest" time="0.022"/>
-  <testcase name="comprobarAplicarDescuentoPorNotasCasoContado()" classname="com.example.evaluacion1.SubirNotasTest" time="0.024"/>
-  <system-out><![CDATA[2023-10-06T19:28:53.705-03:00  INFO 12708 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.evaluacion1.SubirNotasTest]: SubirNotasTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2023-10-06T19:28:53.708-03:00  INFO 12708 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.evaluacion1.Evaluacion1Application for test class com.example.evaluacion1.SubirNotasTest
+  <testcase name="comprobarProcesarNotasConDescuento()" classname="com.example.evaluacion1.SubirNotasTest" time="0.165"/>
+  <testcase name="comprobarGuardarDataDB()" classname="com.example.evaluacion1.SubirNotasTest" time="0.023"/>
+  <testcase name="comprobarFechaAceptadaCalcularPlantilla()" classname="com.example.evaluacion1.SubirNotasTest" time="0.004"/>
+  <testcase name="comprobarDescuentoCuotaPorNotas()" classname="com.example.evaluacion1.SubirNotasTest" time="0.056"/>
+  <testcase name="calcularDescuentosPorNotasCuartoCaso()" classname="com.example.evaluacion1.SubirNotasTest" time="0.004"/>
+  <testcase name="comprobarCalcularPromedioNotas()" classname="com.example.evaluacion1.SubirNotasTest" time="0.056"/>
+  <testcase name="calcularDescuentosPorNotasSegundoCaso()" classname="com.example.evaluacion1.SubirNotasTest" time="0.003"/>
+  <testcase name="comprobarLeerCsv()" classname="com.example.evaluacion1.SubirNotasTest" time="0.03"/>
+  <testcase name="comprobarAplicarDescuentoPorNotasCasoCuotasCaso2()" classname="com.example.evaluacion1.SubirNotasTest" time="0.015"/>
+  <testcase name="comprobarAplicarDescuentoPorNotasCasoCuotas()" classname="com.example.evaluacion1.SubirNotasTest" time="0.018"/>
+  <testcase name="comprobarObtenerFechaPrimerExamenCasoNull()" classname="com.example.evaluacion1.SubirNotasTest" time="0.013"/>
+  <testcase name="comprobarAplicarDescuentoPorNotasCasoContado()" classname="com.example.evaluacion1.SubirNotasTest" time="0.015"/>
+  <system-out><![CDATA[2023-10-07T22:52:36.087-03:00  INFO 9504 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.evaluacion1.SubirNotasTest]: SubirNotasTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-10-07T22:52:36.091-03:00  INFO 9504 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.evaluacion1.Evaluacion1Application for test class com.example.evaluacion1.SubirNotasTest
 Archivo leido exitosamente
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
